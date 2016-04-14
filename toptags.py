@@ -21,14 +21,20 @@ for i in List_Tags[:]:
 	except:
 		pass
 	spt = i.split('><')
+	
+	# Notags. 
 	if len(spt) == 0:
 		pass
+
+	#Only if 1 tag. 
 	if len(spt) == 1:
 		tagg = spt[0][1:-1]
 		try: 
 			Tag_counts[tagg] += 1
 		except:
 			Tag_counts[tagg] = 1
+
+	#Multiple tags handled.
 	else:
 		tagg = spt[0][1:]
 		try: 
@@ -52,6 +58,8 @@ for i in List_Tags[:]:
 
 Top_tags = []
 cnt = 0
+
+#getting the dictionary in the decreasing order of the values.
 for key, value in sorted(Tag_counts.iteritems(), key=lambda (k,v): (v,k),reverse = True):
 	if cnt == 100:
 		break
