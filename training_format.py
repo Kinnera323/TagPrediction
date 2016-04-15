@@ -2,8 +2,8 @@
 
 import numpy as np
 import pandas as pd
-from process import Top_tags
-from tagged_data import WITH_TAGS,BODY
+from toptags import Top_tags
+from tagged_data import WITH_TAGS,BODY,full_TEXT
 
 ###First row of Id,Body,tags is missing ####
 
@@ -45,6 +45,6 @@ for f in WITH_TAGS:
 hp = len(BODY)*80/100
 #print hp
 #Make Training data as 80% and Testing as 20%.... So x = len(BODY)*80/100 !!
-np_body =  np.array(BODY[:hp])
+np_body =  np.array(full_TEXT[:hp])
 np_tags = np.array(final_tag[:hp])
 
