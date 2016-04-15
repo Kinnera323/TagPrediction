@@ -13,6 +13,7 @@ total_questions = 0
 WITH_TAGS = []
 TITLE = []
 BODY = []
+full_TEXT = []
 with open('updated_60MB.csv', 'rb') as f:
     reader = csv.reader(f)
     for row in reader:
@@ -43,7 +44,7 @@ with open('updated_60MB.csv', 'rb') as f:
             	WITH_TAGS.append(updated_tags)
 		TITLE.append(row[1])
                 BODY.append(row[2])
-
+	        full_TEXT.append(row[1]+row[2])
 		total_questions += 1
         	writer.writerow(row)         
 
