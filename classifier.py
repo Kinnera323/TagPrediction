@@ -8,6 +8,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.svm import LinearSVC
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.multiclass import OneVsRestClassifier
+from sklearn import svm
 
 #print np_body
 #print np_tags
@@ -15,7 +16,7 @@ from sklearn.multiclass import OneVsRestClassifier
 classifier = Pipeline([
     ('vectorizer', CountVectorizer()),
     ('tfidf', TfidfTransformer()),
-    ('clf', OneVsRestClassifier(LinearSVC()))])
+    ('clf', OneVsRestClassifier(svm.SVC(probability=True)))])
 
 
 classifier.fit(np_body, np_tags)
@@ -28,7 +29,7 @@ for item, labels in zip(body_test, predicted):
     for x in labels:
 	    output.append(Top_tags[x])
             nums.append(x)
-    print output
+    #print output
     tags_Predicted.append(nums)
 
 #print tags_Predicted     

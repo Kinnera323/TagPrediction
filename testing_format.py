@@ -15,3 +15,5 @@ from tagged_data import BODY,full_TEXT
 
 body_test = full_TEXT[hp:]
 tags_actual = final_tag[hp:]
+
+#print tags_actual

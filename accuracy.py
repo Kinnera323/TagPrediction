@@ -4,29 +4,60 @@
 from classifier import tags_Predicted
 from testing_format import tags_actual
 from sklearn.metrics import f1_score, precision_score, recall_score
+from toptags import Top_tags
 
 yes = 0
 FN = 0
 total = 0
 got_tags = 0
-for actual, predicted in zip(tags_actual, tags_Predicted):
-	if set(actual) == set(predicted):
-		yes += 1  #True Positve,TP
-	elif set(actual) != set(predicted):
-		if len(predicted) != 0:
-			FN += 1 #Declared wrong tags,false negative (declare H0 when, in truth, H1),	
-	if len(predicted) != 0:
-		got_tags += 1
-	total+=1
 
-P = float(yes*100/got_tags)
-R = float(got_tags*100/total)
-#print yes,got_tags,total
+def mean(lis):
+    return float(sum(lis))/len(lis)
 
-# Our multi-label classification system’s performance. F1 score is the harmonic mean of precision (the fraction returned results that are correct) and recall (the fraction of correct results that are returned) ##
+confusion_matrix=[[0,0],[0,0]]
 
-print "Precision: " ,str(P) # precision_score(actual,predicted,average=None) #
-print "Recall: " , str(R) # recall_score(actual,predicted,average=None) 
-print "F1 SCORE: " , str(float(2*P*R/(P+R))) #f1_score(actual,predicted,average=None)  #
+precision=[]
+recall=[]
+f1_score=[]
 
+for j in range(0,100):
+    for i in range(0,len(tags_actual)):
+        if(j in tags_actual[i]):
+            if(j in tags_Predicted[i]):
+                confusion_matrix[0][0]+=1
+            else:
+                confusion_matrix[0][1]+=1
+        else:
+            if(j in tags_Predicted[i]):
+                confusion_matrix[1][0]+=1
+            else:
+                confusion_matrix[1][1]+=1
+
+    if(confusion_matrix[0][0]+confusion_matrix[1][0]==0):
+        precision_for_label_j=0
+    else:
+        precision_for_label_j = confusion_matrix[0][0]/float(confusion_matrix[0][0]+confusion_matrix[1][0]) 
+    if(confusion_matrix[0][0]+confusion_matrix[0][1]==0):
+        recall_for_label_j=0
+    else:
+        recall_for_label_j = confusion_matrix[0][0]/float(confusion_matrix[0][0]+confusion_matrix[0][1])
+
+    precision.append(precision_for_label_j)
+    recall.append(recall_for_label_j)
+    if(precision_for_label_j + recall_for_label_j==0):
+        f1_score.append(0)
+    else:
+        f1_score.append(2*precision_for_label_j*recall_for_label_j/float(precision_for_label_j+recall_for_label_j))
+    confusion_matrix=[[0,0],[0,0]]
+
+
+
+for i in range(0,len(precision)):
+    print Top_tags[i], precision[i], recall[i], f1_score[i]
+    print "\n"
+
+
+print mean(precision)
+print mean(recall)
+print mean(f1_score)
 
