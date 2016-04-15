@@ -10,7 +10,7 @@
 
 # f.close()
 
-from training_format import BODY,final_tag,hp
+from training_format import BODY,final_tag,hp,full_TEXT
 
-body_test = BODY[hp:]
+body_test = full_TEXT[hp:]
 tags_actual = final_tag[hp:]
